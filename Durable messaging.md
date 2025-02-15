@@ -28,4 +28,22 @@ Software programs need to be designed to have the _memory_ and the _drive_ to re
 
 ## At-least-once
 
-When a message is handed over to such a specialized component, that component stores it durably (equivalent of my own memory) and then tries to forward it to the destination. If it fails, it places the message on the retry loop. Eventually after a successful result, the message is removed from the storage to conserve space. This idea is called _durable asynchronoous messaging_. 
+When a message is handed over to such a specialized component, that component stores it durably (equivalent of my own memory) and then tries to forward it to the destination. If it fails, it places the message on the retry loop (equivalent to my apetite for coffee). Eventually after a successful result, the message is removed from the storage to conserve space. This idea is called _durable asynchronoous messaging_.
+
+Software that realizes this pattern was among the first to be available e.g. IBM MQ. This proves how useful the idea of _at-least-once_ communication has been since the very beginning of business software. One key difference between the early implementations of durable messaging solutions and the modern ones is in the way they handle transactions.
+
+## Exactly-once
+
+In the past these technologies, in one way or another, allowed sharing atomic transaction context with a database (e.g. IBM MQ and IBM DB2 or more recently Microsoft SQL Server and MSMQ). This meant that the application can, in a single atomic transaction, consume a message, modify data, and send out follow-up messages. 
+
+Combined with broker's advanced internal message deduplication and exclusive consumption we get the end-to-end guarantee of exactly-once communication, that is the code processing messages can always assume that it will event get a single copy of each message and, once that copy is acknowledged as processed, it will never appear again.
+
+This _Atomic Message Handler_ pattern proved to be tremendously useful and gained popularity over the years. Unfortunately, most modern cloud-native message brokers do not offer similar transaction capabilities. In the next chapter we will dig deeper into reasons why it is the case.
+
+## Back to square one?
+
+Since a message broker is a separate piece of software that runs outside of application's address space, communication with it is a subject of failure. If so, the application must be able to retry until it succeeds but this seems to defeat the whole purpose of having an _at-least-once_ message broker. All we did is we have just moved the problem to a different place.
+
+That's not entirely true. First, we traded the problem of retrying talking with another application for a problem of retrying communication with a message broker. These pieces of infrastructure tend to be quite reliable if well-maintained so the actual likelihood of failure is much smaller (though of course not zero) and the expected periods of unavailability -- much shorted. 
+
+Secondly, we can use the Outbox pattern to communicate with the message broker to provide a complete end-to-end solution to the problem. There is one caveat, however. The Outbox pattern, by design, generates duplicate processing attempts. We'll explore this topic soon, but first -- distributed transactions!
