@@ -1,4 +1,5 @@
-# The Outbox pattern
+# The problem and the solution(s)
+
 
 A company ran by a friend of ours has the simplest software out there. A Microsoft Access database with some input forms on top. It allows creating invoices, tracking orders, monitoring the warehouse state -- everything a small shop needs. As ridiculous, as this might sound, there is just one tiny detail distinguishing it from the software powering Amazon. It's isolated and it talks to no other piece of software. 
 
