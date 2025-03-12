@@ -4,7 +4,7 @@
 1. Durable messaging
 1. Distributed transaction - is it an alternative to outbox?
 1. Deduplication - idempotence-based, state-based, id-based
-1. Message-generation issues when using pure deduplication -- need for deterministic message generation
+1. Message-generation issues when using pure deduplication -- need for deterministic message generation. Bsaed on [this post](https://exactly-once.github.io/posts/consistent-messaging/)
 1. Outbox combined with de-duplication
 1. Side-effects application re-visited -- message retries as alternative to polling
 1. Transactional session -- control message as alternative to polling
