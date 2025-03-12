@@ -1,10 +1,15 @@
 # TOC
 
-1. Outbox intro - one with polling for side effects application. Explain that outbox is bound to generate duplicates so the next thing is to look at de-duplication but before we do that, let's first come back to basics
-1. Durable messaging
-1. Distributed transaction - is it an alternative to outbox?
+1. Network is reliable - what happens when a message is send using a TCP socket
+1. End-to-end argument
+1. Durble messaging ⌛
+1. Partial failures -- how to receive message, update data and send a follow-up message
+1. Duplication - processing side, broker side, sender-side ⌛
+1. Determinisic message generation based on [this post](https://exactly-once.github.io/posts/consistent-messaging/)
+1. Outbox intro as a solution to deterministic message problem ✔️ (do not introduce variants here, just plain vanilla polling version)
+1. State-based deterministic messaging based on [this post](https://exactly-once.github.io/posts/state-based-consistent-messaging/) as an alternative to outbox
+1. Distributed transaction - another alternative to outbox. Based on [this post](https://exactly-once.github.io/posts/notes-on-2pc/) but extended with the intro to 2PC
 1. Deduplication - idempotence-based, state-based, id-based
-1. Message-generation issues when using pure deduplication -- need for deterministic message generation. Bsaed on [this post](https://exactly-once.github.io/posts/consistent-messaging/)
 1. Outbox combined with de-duplication
 1. Side-effects application re-visited -- message retries as alternative to polling
 1. Transactional session -- control message as alternative to polling
